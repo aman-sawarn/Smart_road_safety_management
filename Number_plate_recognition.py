@@ -42,3 +42,12 @@ def cleanPlate(plate):
 
 	else:
 		return plate,None
+def extract_contours(threshold_img):
+	element = cv2.getStructuringElement(shape=cv2.MORPH_RECT, ksize=(17, 3))
+	morph_img_threshold = threshold_img.copy()
+	cv2.morphologyEx(src=threshold_img, op=cv2.MORPH_CLOSE, kernel=element, dst=morph_img_threshold)
+	cv2.imshow("Morphed",morph_img_threshold)
+	cv2.waitKey(0)
+
+	im2,contours, hierarchy= cv2.findContours(morph_img_threshold,mode=cv2.RETR_EXTERNAL,method=cv2.CHAIN_APPROX_NONE)
+	return contours
