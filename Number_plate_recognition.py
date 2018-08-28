@@ -119,3 +119,39 @@ def cleanAndRead(img,contours):
 					img = cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
 					cv2.imshow("Detected Plate",img)
 					cv2.waitKey(0)
+
+
+if __name__ == '__main__':
+	print "DETECTING PLATE . . ."
+
+	# dataset_path = '/home/abc/Desktop/'
+
+
+	dataset_path = raw_input('Enter location of picture')
+
+	for fx in os.listdir(dataset_path):
+		if fx.endswith('.jpg'):
+			img = cv2.imread(dataset_path + fx)
+
+	# cap = cv2.VideoCapture('/home/abc/Desktop/karolbagh.mp4')
+
+	# while True:
+	# 	ret, img = cap.read()
+		
+	# 	if ret == False:
+	# 		continue
+
+	# 	cv2.imshow("Frames", img)
+
+			threshold_img = preprocess(img)
+			contours= extract_contours(threshold_img)
+
+	#if len(contours)!=0:
+		#print len(contours) #Test
+		# cv2.drawContours(img, contours, -1, (0,255,0), 1)
+		# cv2.imshow("Contours",img)
+		# cv2.waitKey(0)
+			cleanAndRead(img,contours)
+			# cv2.imshow(pic)
+			cv2.waitKey(0)
+	# cv2.destroyAllWindows()
