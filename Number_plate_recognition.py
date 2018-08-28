@@ -93,3 +93,29 @@ def validateRotationAndRatio(rect):
 	else:
 		return True
 
+def cleanAndRead(img,contours):
+	#count=0
+	for i,cnt in enumerate(contours):
+		min_rect = cv2.minAreaRect(cnt)
+
+		if validateRotationAndRatio(min_rect):
+
+			x,y,w,h = cv2.boundingRect(cnt)
+			plate_img = img[y:y+h,x:x+w]
+
+
+			if(isMaxWhite(plate_img)):
+				#count+=1
+				clean_plate, rect = cleanPlate(plate_img)
+
+				if rect:
+					x1,y1,w1,h1 = rect
+					x,y,w,h = x+x1,y+y1,w1,h1
+					cv2.imshow("Cleaned Plate",clean_plate)
+					cv2.waitKey(0)
+					plate_im = Image.fromarray(clean_plate)
+					text = tess.image_to_string(plate_im, lang='eng')
+					print "Detected Text : ",text
+					img = cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
+					cv2.imshow("Detected Plate",img)
+					cv2.waitKey(0)
