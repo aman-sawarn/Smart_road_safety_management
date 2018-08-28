@@ -67,3 +67,29 @@ def ratioCheck(area, width, height):
 	if (area < min or area > max) or (ratio < rmin or ratio > rmax):
 		return False
 	return True
+def isMaxWhite(plate):
+	avg = np.mean(plate)
+	if(avg>=115):
+		return True
+	else:
+ 		return False
+def validateRotationAndRatio(rect):
+	(x, y), (width, height), rect_angle = rect
+
+	if(width>height):
+		angle = -rect_angle
+	else:
+		angle = 90 + rect_angle
+
+	if angle>15:
+	 	return False
+
+	if height == 0 or width == 0:
+		return False
+
+	area = height*width
+	if not ratioCheck(area,width,height):
+		return False
+	else:
+		return True
+
