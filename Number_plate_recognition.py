@@ -51,3 +51,19 @@ def extract_contours(threshold_img):
 
 	im2,contours, hierarchy= cv2.findContours(morph_img_threshold,mode=cv2.RETR_EXTERNAL,method=cv2.CHAIN_APPROX_NONE)
 	return contours
+
+def ratioCheck(area, width, height):
+	ratio = float(width) / float(height)
+	if ratio < 1:
+		ratio = 1 / ratio
+
+	aspect = 4.7272
+	min = 15*aspect*15  # minimum area
+	max = 125*aspect*125  # maximum area
+
+	rmin = 3
+	rmax = 6
+
+	if (area < min or area > max) or (ratio < rmin or ratio > rmax):
+		return False
+	return True
